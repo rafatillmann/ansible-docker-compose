@@ -1,0 +1,11 @@
+- name: run docker-compose with ansible
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: generate compose
+      template: 
+        src: ./templates/docker-compose.yml.j2
+        dest: /opt/docker-compose.yml
+    - docker_compose:
+        project_src: /opt
+      register: output

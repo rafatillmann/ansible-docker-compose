@@ -1,0 +1,11 @@
+- name: Stop docker-compose
+  hosts: all
+  tasks:
+    - name: generate compose
+      template: 
+        src: ./templates/docker-compose.yml.j2
+        dest: /opt/docker-compose.yml
+    - name: docker-compose down
+      docker_compose:
+        project_src: /opt
+        state: absent

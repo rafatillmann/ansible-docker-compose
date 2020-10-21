@@ -1,0 +1,38 @@
+version: "3.4"
+
+services:
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    restart: always
+    depends_on: 
+      - mysql_wordpress
+    ports:
+      - "{{ HTTP_PORT }}:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql_wordpress
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wp
+    networks:
+      - isolated_network
+    volumes:
+      - /wordpress:/var/www/html
+
+  mysql_wordpress:
+    container_name: mysql_wordpress
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: wp
+    networks:
+     - isolated_network
+    volumes:
+     - /mysql_wordpress:/var/lib/mysql
+
+networks:
+  isolated_network:
